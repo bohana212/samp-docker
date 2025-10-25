@@ -1,0 +1,22 @@
+name: Build SA-MP Server Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t samp-server .
+
+      - name: Run SA-MP Server
+        run: |
+          chmod +x samp03svr
+          ./samp03svr
