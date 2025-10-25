@@ -1,0 +1,28 @@
+name: Build SA-MP Docker
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Custom SA-MP Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build SA-MP Docker Image
+        run: |
+          echo "Building Docker image for SA-MP..."
+          docker build -t samp-custom .
+
+      - name: Run SA-MP Server
+        run: |
+          echo "Running SA-MP server container..."
+          docker run -d --name samp-server -p 7777:7777/udp samp-custom
